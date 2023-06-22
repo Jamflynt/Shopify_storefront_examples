@@ -1,0 +1,22 @@
+<img src="{{imageSrc}}">
+<h5 class="Product__title">{{product.title}}</h5>
+<span class="Product__price">$ {{price}}</span>
+{{#each variantGroups as |variantGroup|}}
+  {{#unless variantGroup.noChoices}}
+    <div>
+      <label>{{variantGroup.name}}</label>
+      <select class="Product__option" {{action 'updateSelected' variantGroup on='change'}} id="{{variantGroup.selectId}}">
+        {{#each variantGroup.values as |value|}}
+          <option value={{value}} selected={{is-equal variantGroup.selected value}}>
+            {{value}}
+          </option>
+        {{/each}}
+      </select>
+    </div>
+  {{/unless}}
+{{/each}}
+<label>Quantity</label>
+{{input class="Product__quantity" min="1" type="number" value=quantity}}
+<button class="Product__buy button" {{action "open"}} {{action "addVariantToCart"}}>
+  Add to cart
+</button>

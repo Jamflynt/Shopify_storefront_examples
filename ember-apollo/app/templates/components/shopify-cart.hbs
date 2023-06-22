@@ -1,0 +1,61 @@
+<header class="Cart__header">
+  <h2>Cart</h2>
+  <button class="Cart__close" {{action "close"}}>
+    ×
+  </button>
+</header>
+
+<ul class="Cart__line-items">
+  {{#each cart.lineItems.edges as |item|}}
+    <li class="Line-item">
+      <div class="Line-item__img">
+        <img src={{item.node.variant.image.src}}>
+      </div>
+      <div class="Line-item__content">
+        <div class="Line-item__content-row">
+          <div class="Line-item__variant-title">
+            {{item.node.variant.title}}
+          </div>
+          <span class="Line-item__title">
+            {{item.node.title}}
+          </span>
+        </div>
+        <div class="Line-item__content-row">
+          <div class="Line-item__quantity-container">
+            <button class="Line-item__quantity-update" {{action "decrementQuantity" item.node.id item.node.quantity}}>-</button>
+            <span class="Line-item__quantity">{{item.node.quantity}}</span>
+            <button class="Line-item__quantity-update" {{action "incrementQuantity" item.node.id item.node.quantity}}>+</button>
+          </div>
+          <span class="Line-item__price">
+            $ {{total-price item.node.variant.price item.node.quantity}}
+          </span>
+          <button class="Line-item__remove" {{action "removeItem" item.node.id}}>×</button>
+        </div>
+      </div>
+    </li>
+  {{/each}}
+</ul>
+
+<footer class="Cart__footer">
+  <div class="Cart-info clearfix">
+    <div class="Cart-info__total Cart-info__small">Subtotal</div>
+    <div class="Cart-info__pricing">
+      <span class="pricing">$ {{cart.subtotalPrice}}</span>
+    </div>
+  </div>
+  <div class="Cart-info clearfix">
+    <div class="Cart-info__total Cart-info__small">Taxes</div>
+    <div class="Cart-info__pricing">
+      <span class="pricing">$ {{cart.totalTax}}</span>
+    </div>
+  </div>
+  <div class="Cart-info clearfix">
+    <div class="Cart-info__total Cart-info__small">Total</div>
+    <div class="Cart-info__pricing">
+      <span class="pricing">$ {{cart.totalPrice}}</span>
+    </div>
+  </div>
+  <button class="Cart__checkout button" disabled={{checkoutDisabled}} {{action "openCheckout"}}>
+    Checkout
+  </button>
+</footer>
